@@ -1,5 +1,5 @@
 
-<div class="map" style="background-image: url('https://gommera.files.wordpress.com/2018/10/fantasy_world.jpg")></div>
+<div class="map" style="background-image: url('https://gommera.files.wordpress.com/2018/10/fantasy_world.jpg')"></div>
 <div class="container margin-top-negative">
   <div class="row">
     <div class="col-8">
@@ -9,48 +9,59 @@
       <div class="flat-show-card">
         <h3>A bit more about this character...</h3>
         <p><%= @character.description %></p>
-        <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)</div>
+        <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
       </div>
     </div>
     <div class="col-4">
       <div class="flat-show-card">
         <% if @character.status %>
-          <h5>Rent this character!</h5>
+          <h3>Rent this character!</h3>
           <form action="">
             <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">From:</span>
-              <input type="text" class="form-control" placeholder="12/10/2017" aria-label="Username" aria-describedby="basic-addon1">
+              <span class="input-group-addon" id="basic-addon1" style="width: 20%">From: </span>
+              <input type="text" class="form-control" placeholder="17/08/2020" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mt-2">
-              <span class="input-group-addon" id="basic-addon1">To: </span>
-              <input type="text" class="form-control" placeholder="18/10/2017" aria-label="Username" aria-describedby="basic-addon1">
+              <span class="input-group-addon" id="basic-addon1" style="width: 20%">To: </span>
+              <input type="text" class="form-control" placeholder="18/08/2020" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <input type="submit" value="Rent" class="btn btn-success mt-2" style="width: 100%">
           </form>
         <% else %>
-          <p>Unavailable</p>
+          <p>Sorry this character is currently unavailable</p>
         <% end %>
       </div>
       <div class="flat-show-card">
         <h3>Details</h3>
-        <div class="flex">
-          <div class="flex">
-            <i class="material-icons mr-2">Price</i>
+        <div class="row">
+          <div class="col-4">
+            <p>Price</p>
           </div>
-          <div class="flex ml-3">
-            <i class="material-icons mr-2"><%= "#{@character.price_per_day } "%>$ per day</i>
-          </div>
-          <span> | </span>
-          <div class="flex">
-            <i class="material-icons mr-2">Owner</i>
-          </div>
-          <div class="flex ml-3">
-            <p><%= @character.user.first_name %></p>
-          </div>
+          <div class="col-8">
+            <p><%="#{@character.price_per_day }"%>$ per day</p>
           </div>
         </div>
+        <div class="row">
+          <div class="col-4">
+            <p>Host</p>
+          </div>
+          <div class="col-8">
+            <p><%= @character.user.first_name %></p>
+          </div>
+        </div>
+      </div>
+      <div class="flat-show-card">
+          <h3>Reviews</h3>
+          <ul class="list-group">
+            <% @character.reviews.each do |review| %>
+            <li class="list-group-item"><%= review.user_comment %></li>
+            <% end %>
+          </ul>
+      </div>
       </div>
     </div>
   </div>
 </div>
+
+
 
