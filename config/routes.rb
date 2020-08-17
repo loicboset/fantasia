@@ -3,9 +3,7 @@ Rails.application.routes.draw do
   get 'characters/index'
   get 'characters/:id', to: 'characters#show'
   devise_for :users, except: [:show]
-  root to: 'characters#home'
-
-  
+  root to: 'characters#index'
 
   resources :characters, except: [:destroy] do
 
