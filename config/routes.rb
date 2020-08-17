@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'characters/index'
-  get 'characters/show'
   devise_for :users
   root to: 'characters#index'
   resources :characters, except: [:destroy] do

@@ -1,2 +1,32 @@
 <%= render 'components/banner'%>
 
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12">
+      <h1>All our Characters</h1>
+    </div>
+  </div>
+  <div class="row">
+    <% @characters.each do |character| %>
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="flat-card">
+          <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+          <div class="flat-card-content">
+            <div class="flat-card-title">
+              <h4><%= character.name %></h4>
+            </div>
+            <p><%= character.description %></p>
+            <div class="flex">
+              <div class="flex ml-3">
+                <i class="material-icons mr-2">euro_symbol</i> <%= character.price_per_day %>
+              </div>
+            </div>
+          </div>
+          <div class="flat-card-actions">
+            <%= link_to 'More info', character_path(character) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
