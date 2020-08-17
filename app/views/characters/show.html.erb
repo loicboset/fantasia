@@ -1,2 +1,18 @@
-<h1>Characters#show</h1>
-<p>Find me in app/views/characters/show.html.erb</p>
+<h1><%= "#{@character.name} " %>I choose you!</h1>
+
+<p><%= @character.description %><p>
+<p><%= "#{@character.price_per_day } "%>$ per day</p>
+<img src=<%= "#{@character.image_url}" %> alt= "character" >
+<p><%= @character.user.first_name %></p>
+<% if @character.status %>
+  <p>Available</p>
+
+<% else %>
+  <p>Unavailable</p>
+<% end %>
+
+
+
+
+
+
