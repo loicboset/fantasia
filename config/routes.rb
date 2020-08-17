@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users
-  root to: 'characters#index'
+
+  get 'characters/index'
+  get 'characters/:id', to: 'characters#show'
+  devise_for :users, except: [:show]
+  root to: 'characters#home'
+
+  
+
   resources :characters, except: [:destroy] do
 
   end
