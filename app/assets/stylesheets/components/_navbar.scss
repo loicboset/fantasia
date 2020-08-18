@@ -34,3 +34,11 @@
 .navbar-lewagon .navbar-brand img {
   width: 40px;
 }
+
+@media (max-width: 575px) {
+  .navbar-lewagon {
+    h1 {
+      display: none;
+    }
+  }
+}
