@@ -1,3 +1,5 @@
+
+
 .footer {
   background: #ffffff;
   display: flex;
@@ -6,6 +8,9 @@
   justify-content: space-between;
   padding: 0px 50px;
   color: rgba(0, 0, 0, 0.3);
+  // position: absolute;
+  // bottom: 0;
+  width: 100%;
 }
 
 .footer-links {

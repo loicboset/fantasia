@@ -35,6 +35,9 @@ gem 'simple_form'
 # Devise
 gem 'devise'
 
+# Pundint
+gem 'pundit'
+
 # Faker
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 
