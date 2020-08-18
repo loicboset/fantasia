@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  get 'profile', to: 'pages#profile'
   get 'characters/index'
   get 'characters/:id', to: 'characters#show'
   devise_for :users, except: [:show]
