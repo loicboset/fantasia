@@ -12,4 +12,10 @@
 @import "components/index";
 @import "pages/index";
 
-@import "characters"
+@import "characters";
+
+body {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 75px;
+}
