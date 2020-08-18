@@ -15,7 +15,7 @@
     </div>
     <div class="col-12 col-lg-5">
       <div class="flat-show-card">
-        <% if @character.status %>
+        <% if @character.status && current_user.id != @character.user_id %>
           <h3>Rent this character!</h3>
           <%= simple_form_for @booking do |f| %>
             <%= f.input :start_date %>
@@ -24,7 +24,7 @@
             <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
           <% end %>
         <% else %>
-          <p>Sorry this character is currently unavailable</p>
+          <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>
         <% end %>
       </div>
       <div class="flat-show-card">
@@ -34,7 +34,7 @@
             <p>Price</p>
           </div>
           <div class="col-8">
-            <p><%="#{@character.price_per_day }"%>$ per day</p>
+            <p><%="#{@character.price_per_day }"%>&euro; per day</p>
           </div>
         </div>
         <div class="row">
@@ -42,22 +42,19 @@
             <p>Host</p>
           </div>
           <div class="col-8">
-            <p><%= @character.user.first_name %></p>
+            <p><%= @character.user.first_name.capitalize %></p>
           </div>
         </div>
       </div>
       <div class="flat-show-card">
-          <h3>Reviews</h3>
-          <ul class="list-group">
-            <% @character.reviews.each do |review| %>
+        <h3>Reviews</h3>
+        <ul class="list-group">
+          <% @character.reviews.each do |review| %>
             <li class="list-group-item"><%= review.user_comment %></li>
-            <% end %>
-          </ul>
+          <% end %>
+        </ul>
       </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
