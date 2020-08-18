@@ -2,7 +2,7 @@ console.log("hello from scroll_navbar.js");
 
 
 
-const scroll_navbar = () => {
+const scrollNavbar = () => {
   const navbar = document.querySelector('.navbar-homepage');
   if (navbar != null) {
     window.addEventListener('scroll', (e) => {
@@ -22,4 +22,4 @@ const scroll_navbar = () => {
 
 // scroll_navbar()
 
-export { scroll_navbar }
+export { scrollNavbar }
