@@ -1,8 +1,95 @@
-<p><%= current_user.email %></p>
-<%= simple_form_for @character do |f| %>
-  <%= f.input :name %>
-  <%= f.input :description %>
-  <%= f.input :price_per_day %>
-  <%= f.input :image_url %>
-  <%= f.submit %>
-<% end %>
+<div class="container mt-4">
+  <div class="mb-4">
+    <span>Welcome to your profile page <%= current_user.first_name.capitalize %>!</span>
+    <button type="button" class="btn small btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+      Create your characters
+    </button>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create your character</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= simple_form_for @character do |f| %>
+            <input name="_method" type="hidden" value="put" />
+            <%= f.input :name %>
+            <%= f.input :description %>
+            <%= f.input :price_per_day %>
+            <%= f.input :image_url %>
+            <%= f.submit class: 'btn btn-primary'  %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h1>All your Characters</h1>
+    </div>
+  </div>
+  <div class="row">
+    <% current_user.characters.each do |character| %>
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="flat-card">
+          <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+          <div class="flat-card-content">
+            <div class="flat-card-title">
+              <h4><%= character.name %></h4>
+            </div>
+            <p><%= character.description %></p>
+            <div class="flex">
+              <div class="flex ml-3">
+                <i class="material-icons mr-2">&euro;</i> <%= character.price_per_day %>
+              </div>
+            </div>
+          </div>
+          <div class="flat-card-actions">
+            <%= link_to 'More info', character_path(character), class: "btn btn-outline-success" %>
+            <input
+              type="button"
+              class="btn btn-outline-warning"
+              data-toggle="modal"
+              data-id="<%= character.id %>"
+              data-name="<%= character.name %>"
+              data-description="<%= character.description %>"
+              data-price_per_day="<%= character.price_per_day %>"
+              data-image_url="<%= character.image_url %>"
+              data-target="#char-<%= character.id %>"
+              value="Edit"
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="char-<%= character.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Create your character</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for character do |f| %>
+                <%= f.input :name %>
+                <%= f.input :description %>
+                <%= f.input :price_per_day %>
+                <%= f.input :image_url %>
+                <%= f.submit class: 'btn btn-primary'  %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
