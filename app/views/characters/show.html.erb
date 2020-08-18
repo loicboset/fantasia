@@ -5,6 +5,7 @@
     <div class="col-8">
       <div class="flat-show-card">
         <h1><%= "#{@character.name} " %>I choose you!</h1>
+        <p><i class="fas fa-heart"></i>Favorite</p>
       </div>
       <div class="flat-show-card">
         <h3>A bit more about this character...</h3>
@@ -51,7 +52,7 @@
         </div>
       </div>
       <div class="flat-show-card">
-          <h3>Reviews</h3>
+          <h3>Reviews</h3><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
           <ul class="list-group">
             <% @character.reviews.each do |review| %>
             <li class="list-group-item"><%= review.user_comment %></li>
