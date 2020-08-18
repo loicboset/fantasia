@@ -2,7 +2,7 @@
 <div class="map" style="background-image: url('https://gommera.files.wordpress.com/2018/10/fantasy_world.jpg')"></div>
 <div class="container margin-top-negative">
   <div class="row">
-    <div class="col-8">
+    <div class="col-12 col-lg-8">
       <div class="flat-show-card">
         <h1><%= "#{@character.name} " %>I choose you!</h1>
         <p><i class="fas fa-heart"></i>Favorite</p>
@@ -13,7 +13,7 @@
         <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-12 col-lg-4">
       <div class="flat-show-card">
         <% if @character.status %>
           <h3>Rent this character!</h3>
