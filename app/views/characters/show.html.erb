@@ -2,7 +2,7 @@
 <div class="map" style="background-image: url('https://gommera.files.wordpress.com/2018/10/fantasy_world.jpg')"></div>
 <div class="container margin-top-negative">
   <div class="row">
-    <div class="col-8">
+    <div class="col-12 col-lg-7">
       <div class="flat-show-card">
         <h1><%= "#{@character.name} " %>I choose you!</h1>
       </div>
@@ -12,21 +12,16 @@
         <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-12 col-lg-5">
       <div class="flat-show-card">
         <% if @character.status %>
           <h3>Rent this character!</h3>
-          <form action="">
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1" style="width: 20%">From: </span>
-              <input type="text" class="form-control" placeholder="17/08/2020" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mt-2">
-              <span class="input-group-addon" id="basic-addon1" style="width: 20%">To: </span>
-              <input type="text" class="form-control" placeholder="18/08/2020" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-            <input type="submit" value="Rent" class="btn btn-success mt-2" style="width: 100%">
-          </form>
+          <%= simple_form_for @booking do |f| %>
+            <%= f.input :start_date %>
+            <%= f.input :end_date %>
+            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
+          <% end %>
         <% else %>
           <p>Sorry this character is currently unavailable</p>
         <% end %>
