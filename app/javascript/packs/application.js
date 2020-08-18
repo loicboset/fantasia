@@ -7,6 +7,10 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("scroll_navbar")
+
+// import { scroll_navbar } from 'scroll_navbar'
+
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
