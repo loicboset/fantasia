@@ -3,12 +3,7 @@ class CharactersController < ApplicationController
   before_action :set_character, except: [:index]
 
   def index
-    if params[:search].present?
-      @query = params[:search][:query]
-      @characters = policy_scope(Character).where("name iLike '%#{params[:search][:query]}%'")
-    else
-      @characters = policy_scope(Character).order(created_at: :desc)
-    end
+    @characters = policy_scope(Character).order(created_at: :desc)
   end
 
   def show
