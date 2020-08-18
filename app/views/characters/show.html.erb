@@ -1,18 +1,67 @@
-<h1><%= "#{@character.name} " %>I choose you!</h1>
 
-<p><%= @character.description %><p>
-<p><%= "#{@character.price_per_day } "%>$ per day</p>
-<img src=<%= "#{@character.image_url}" %> alt= "character" >
-<p><%= @character.user.first_name %></p>
-<% if @character.status %>
-  <p>Available</p>
-
-<% else %>
-  <p>Unavailable</p>
-<% end %>
-
-
-
+<div class="map" style="background-image: url('https://gommera.files.wordpress.com/2018/10/fantasy_world.jpg')"></div>
+<div class="container margin-top-negative">
+  <div class="row">
+    <div class="col-8">
+      <div class="flat-show-card">
+        <h1><%= "#{@character.name} " %>I choose you!</h1>
+      </div>
+      <div class="flat-show-card">
+        <h3>A bit more about this character...</h3>
+        <p><%= @character.description %></p>
+        <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="flat-show-card">
+        <% if @character.status %>
+          <h3>Rent this character!</h3>
+          <form action="">
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1" style="width: 20%">From: </span>
+              <input type="text" class="form-control" placeholder="17/08/2020" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mt-2">
+              <span class="input-group-addon" id="basic-addon1" style="width: 20%">To: </span>
+              <input type="text" class="form-control" placeholder="18/08/2020" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <input type="submit" value="Rent" class="btn btn-success mt-2" style="width: 100%">
+          </form>
+        <% else %>
+          <p>Sorry this character is currently unavailable</p>
+        <% end %>
+      </div>
+      <div class="flat-show-card">
+        <h3>Details</h3>
+        <div class="row">
+          <div class="col-4">
+            <p>Price</p>
+          </div>
+          <div class="col-8">
+            <p><%="#{@character.price_per_day }"%>$ per day</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <p>Host</p>
+          </div>
+          <div class="col-8">
+            <p><%= @character.user.first_name %></p>
+          </div>
+        </div>
+      </div>
+      <div class="flat-show-card">
+          <h3>Reviews</h3>
+          <ul class="list-group">
+            <% @character.reviews.each do |review| %>
+            <li class="list-group-item"><%= review.user_comment %></li>
+            <% end %>
+          </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
