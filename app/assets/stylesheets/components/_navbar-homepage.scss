@@ -1,0 +1,48 @@
+.navbar-homepage {
+  justify-content: space-between;
+  background: white;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: transparent;
+  transition: 150ms ease;
+  z-index: 1;
+
+  h1 {
+    color: white;
+    margin: 0;
+  }
+
+  a.nav-link {
+    color: white !important;
+  }
+}
+
+.sticky {
+  background-color: white;
+  position: fixed;
+
+  h1 {
+    color: black;
+  }
+
+  a.nav-link {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+.navbar-homepage .navbar-collapse {
+  flex-grow: 0;
+}
+
+.navbar-homepage .navbar-brand img {
+  width: 40px;
+}
+
+@media (max-width: 575px) {
+  .navbar-homepage {
+    h1 {
+      display: none;
+    }
+  }
+}

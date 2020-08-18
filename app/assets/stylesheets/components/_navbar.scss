@@ -1,31 +1,17 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
-  position: absolute;
-  top: 0;
   width: 100%;
-  background-color: transparent;
-  transition: 150ms ease;
   z-index: 1;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
   h1 {
-    color: white;
+    color: black;
     margin: 0;
   }
   a.nav-link {
-    color: white !important;
+    color: black !important;
   }
 }
 
-.sticky {
-  background-color: white;
-  position: fixed;
-  h1 {
-    color: black;
-  }
-  a.nav-link {
-    color: rgba(0, 0, 0, 0.5) !important;
-  }
-}
 
 .navbar-lewagon .navbar-collapse {
   flex-grow: 0;
