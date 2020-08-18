@@ -5,9 +5,13 @@ class BookingsController < ApplicationController
     authorize @booking
     @booking.character = Character.find(params[:booking][:character_id])
     @booking.user = current_user
-    p params
-    if @booking.save!
-      redirect_to profile_path
+
+    if @booking.start_date < @booking.end_date
+      if @booking.save!
+        redirect_to profile_path
+      end
+    else
+      redirect_to character_path(@booking.character), notice: "Invalid date"
     end
   end
 
