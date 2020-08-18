@@ -1,0 +1,35 @@
+
+.character-card {
+  width: 100%;
+  height: 315px;
+  position: relative;
+  margin: .5rem 0 1rem 0;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.character-card-image {
+  height: 220px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.character-card-content {
+  padding: 10px;
+  h4 {
+    font-size: 18px;
+    line-height: 22px;
+    max-height: 44px;
+    overflow: hidden;
+  }
+  p {
+    font-size: 14px;
+    color: rgba(0,0,0,0.6);
+  }
+}
+
