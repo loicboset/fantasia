@@ -11,6 +11,9 @@
     color: white;
     margin: 0;
   }
+  a.nav-link {
+    color: white !important;
+  }
 }
 
 .sticky {
@@ -18,6 +21,9 @@
   position: fixed;
   h1 {
     color: black;
+  }
+  a.nav-link {
+    color: rgba(0, 0, 0, 0.5) !important;
   }
 }
 
