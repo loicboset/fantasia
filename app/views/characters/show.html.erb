@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-12 col-lg-7">
       <div class="flat-show-card">
-        <h1><%= "#{@character.name.upcase} " %>is for hire!</h1>
+        <h1><%= "#{@character.name}" %></h1>
         <% if user_signed_in? %>
           <% if current_user.favorites.where(character_id: @character.id).empty? %>
             <%= link_to favorite_character_path(@character, type: "favorite"), method: :put do %>
@@ -19,7 +19,7 @@
         <% end %>
       </div>
       <div class="flat-show-card">
-        <h3>Some of my special powers...</h3>
+        <h3>What we can do together</h3>
         <p><%= @character.description %></p>
         <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
       </div>
