@@ -21,7 +21,7 @@
 }
 
 .btn-flat:hover {
-  background: #1BCB7F;
+  background: #1EDD88;
   color: white;
 }
 
@@ -38,4 +38,18 @@
 .btn-gradient:hover {
   background: linear-gradient(#147EFF, #0F67DA);
   color: white;
+}
+
+.btn-sign_up {
+  color: #222222;
+  background: #FFFFFF;
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.btn-sign_up:hover {
+  background-color: #eeeeee;
 }

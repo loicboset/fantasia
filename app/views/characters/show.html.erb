@@ -1,18 +1,79 @@
-<h1><%= "#{@character.name} " %>I choose you!</h1>
+<%= render 'shared/navbar' %>
 
-<p><%= @character.description %><p>
-<p><%= "#{@character.price_per_day } "%>$ per day</p>
-<img src=<%= "#{@character.image_url}" %> alt= "character" >
-<p><%= @character.user.first_name %></p>
-<% if @character.status %>
-  <p>Available</p>
-
-<% else %>
-  <p>Unavailable</p>
-<% end %>
-
-
-
-
-
-
+<div class="map" style="background-image: url('https://gommera.files.wordpress.com/2018/10/fantasy_world.jpg')"></div>
+<div class="container margin-top-negative">
+  <div class="row">
+    <div class="col-12 col-lg-7">
+      <div class="flat-show-card">
+        <h1><%= "#{@character.name} " %>I choose you!</h1>
+        <% if user_signed_in? %>
+          <% if current_user.favorites.where(character_id: @character.id).empty? %>
+            <%= link_to favorite_character_path(@character, type: "favorite"), method: :put do %>
+              <i class="far fa-star"></i>
+            <% end %>
+          <% else %>
+            <%= link_to favorite_character_path(@character, type: "unfavorite"), method: :put do %>
+              <i class="fas fa-star"></i>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="flat-show-card">
+        <h3>A bit more about this character...</h3>
+        <p><%= @character.description %></p>
+        <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-5">
+      <div class="flat-show-card">
+        <% if current_user.nil? %>
+          <h3>Rent this character!</h3>
+          <%= simple_form_for @booking do |f| %>
+            <%= f.input :start_date %>
+            <%= f.input :end_date %>
+            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
+          <% end %>
+        <% elsif @character.status && current_user.id != @character.user_id %>
+          <h3>Rent this character!</h3>
+          <%= simple_form_for @booking do |f| %>
+            <%= f.input :start_date %>
+            <%= f.input :end_date %>
+            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
+          <% end %>
+        <% else %>
+          <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>
+        <% end %>
+      </div>
+      <div class="flat-show-card">
+        <h3>Details</h3>
+        <div class="row">
+          <div class="col-4">
+            <p>Price</p>
+          </div>
+          <div class="col-8">
+            <p><%="#{@character.price_per_day }"%>&euro; per day</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <p>Host</p>
+          </div>
+          <div class="col-8">
+            <p><%= @character.user.first_name.capitalize %></p>
+          </div>
+        </div>
+      </div>
+      <div class="flat-show-card">
+        <h3>Reviews</h3>
+        <ul class="list-group">
+          <% @character.reviews.each do |review| %>
+            <li class="list-group-item"><%= review.user_comment %></li>
+          <% end %>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

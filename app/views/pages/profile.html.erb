@@ -1,0 +1,164 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <%# modal %>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create your character</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= simple_form_for @character do |f| %>
+            <input name="_method" type="hidden" value="put" />
+            <%= f.input :name %>
+            <%= f.input :description %>
+            <%= f.input :price_per_day %>
+            <%= f.input :image_url %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="float-right">
+              <%= f.submit class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# tabs %>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Characters</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Bookings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Favorites</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <%# characters %>
+    <div class="tab-pane show active mt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="mb-4">
+        <span>Welcome to your profile page <%= current_user.first_name.capitalize %>!</span>
+        <div class="float-right">
+          <button type="button" class="btn small btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+            Create your characters
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <% current_user.characters.each do |character| %>
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="flat-card">
+              <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+              <div class="flat-card-content">
+                <div class="flat-card-title">
+                  <h4><%= character.name %></h4>
+                </div>
+                <p><%= character.description %></p>
+                <div class="flex">
+                  <div class="flex">
+                    Price: <%= character.price_per_day %> &euro;
+                  </div>
+                </div>
+              </div>
+              <div class="flat-card-actions">
+                <%= link_to 'More info', character_path(character), class: "btn btn-outline-success" %>
+                <input
+                  type="button"
+                  class="btn btn-outline-warning"
+                  data-toggle="modal"
+                  data-target="#char-<%= character.id %>"
+                  value="Edit"
+                >
+              </div>
+            </div>
+          </div>
+
+          <%# edit modal %>
+          <div class="modal fade" id="char-<%= character.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit your character</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= simple_form_for character do |f| %>
+                    <%= f.input :name %>
+                    <%= f.input :description %>
+                    <%= f.input :price_per_day %>
+                    <%= f.input :image_url %>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="float-right"><%= f.submit 'Edit', class: 'btn btn-warning' %></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%# edit modal %>
+        <% end %>
+      </div>
+
+    </div>
+    <%# bookings %>
+    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="my-4">
+        <div>Here are your bookings <%= current_user.first_name.capitalize %>:</div>
+      </div>
+      <div class="row">
+        <% current_user.bookings.each do |booking| %>
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="flat-card">
+              <div class="flat-card-image" style="background-image: url('<%= booking.character.image_url %>')"></div>
+              <div class="flat-card-content">
+                <div class="flat-card-title">
+                  <h4><%= booking.character.name %></h4>
+                </div>
+                <p><%= booking.character.description %></p>
+              </div>
+              <div class="flat-card-actions">
+                <div class="flex row justify-content-between">
+                  <div class="flex small ml-2">
+                    <strong>Total Price:</strong>&nbsp;
+                    <%= booking.character.price_per_day %> &euro;
+                  </div>
+                  <div class="flex small mr-2">
+                    <strong>Total days: </strong>&nbsp;
+                    <%= (booking.end_date - booking.start_date).to_i %>
+                  </div>
+                </div>
+              </div>
+              <div class="flat-card-actions">
+                <div class="flex row justify-content-between">
+                  <div class="flex small ml-2">
+                    <strong>From:</strong>&nbsp;
+                    <%= booking.start_date %>
+                  </div>
+                  <div class="flex small mr-2">
+                    <strong>To:</strong>&nbsp;
+                    <%= booking.end_date %>
+                  </div>
+                </div>
+                <%# Actions: edit - delete %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+    <%# favorites %>
+    <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+    </div>
+  </div>
+
+</div>
