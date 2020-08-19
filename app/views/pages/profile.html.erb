@@ -38,7 +38,11 @@
     <li class="nav-item">
       <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Favorites</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="deactivated-tab" data-toggle="tab" href="#deactivated" role="tab" aria-controls="deactivated" aria-selected="false">Deactivated</a>
+    </li>
   </ul>
+
   <div class="tab-content" id="myTabContent">
     <%# characters %>
     <div class="tab-pane mt-4" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -52,32 +56,63 @@
       </div>
       <div class="row">
         <% current_user.characters.each do |character| %>
-          <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="flat-card">
-              <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
-              <div class="flat-card-content">
-                <div class="flat-card-title">
-                  <h4><%= character.name %></h4>
-                </div>
-                <p><%= character.description %></p>
-                <div class="flex">
+          <% if character.status %>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+              <div class="flat-card">
+                <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <div class="flat-card-content">
+                  <div class="flat-card-title">
+                    <h4><%= character.name %></h4>
+                  </div>
+                  <p><%= character.description %></p>
                   <div class="flex">
-                    Price: <%= character.price_per_day %> &euro;
+                    <div class="flex">
+                      Price: <%= character.price_per_day %> &euro;
+                    </div>
                   </div>
                 </div>
+                <div class="flat-card-actions">
+                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2" %>
+                  <input
+                    type="button"
+                    class="btn btn-outline-warning mr-2"
+                    data-toggle="modal"
+                    data-target="#char-<%= character.id %>"
+                    value="Edit"
+                  >
+                  <input
+                    type="button"
+                    class="btn btn-outline-danger"
+                    data-toggle="modal"
+                    data-target="#char-status-<%= character.id %>"
+                    value="Deactivate"
+                  >
+                </div>
               </div>
-              <div class="flat-card-actions">
-                <%= link_to 'More info', character_path(character), class: "btn btn-outline-success" %>
-                <input
-                  type="button"
-                  class="btn btn-outline-warning"
-                  data-toggle="modal"
-                  data-target="#char-<%= character.id %>"
-                  value="Edit"
-                >
+            </div>
+          <% end %>
+
+          <%# status modal %>
+          <div class="modal fade" id="char-status-<%= character.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to deactivate <%= character.name %>?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= simple_form_for character do |f| %>
+                    <%= f.input :status %>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="float-right"><%= f.submit 'Confirm', class: 'btn btn-warning' %></div>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
+          <%# status modal %>
 
           <%# edit modal %>
           <div class="modal fade" id="char-<%= character.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,6 +142,7 @@
       </div>
 
     </div>
+
     <%# bookings %>
     <div class="tab-pane show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       <div class="my-4">
@@ -127,7 +163,7 @@
                 <div class="flex row justify-content-between">
                   <div class="flex small ml-2">
                     <strong>Total Price:</strong>&nbsp;
-                    <%= booking.character.price_per_day %> &euro;
+                    <%= booking.character.price_per_day.to_i * ((booking.end_date - booking.start_date).to_i + 1) %> &euro;
                   </div>
                   <div class="flex small mr-2">
                     <strong>Total days: </strong>&nbsp;
@@ -152,13 +188,12 @@
           </div>
         <% end %>
       </div>
-
     </div>
 
     <%# favorites %>
     <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
       <div class="my-4">
-        <div>Here are your favorites <%= current_user.first_name.capitalize %>:</div>
+        <div>Here are your favorites characters <%= current_user.first_name.capitalize %>:</div>
       </div>
       <div class="row">
         <% current_user.favorites.each do |favorite| %>
@@ -178,6 +213,102 @@
         <% end %>
       </div>
     </div>
-  </div>
 
+    <%# deactivated %>
+    <div class="tab-pane" id="deactivated" role="tabpanel" aria-labelledby="deactivated-tab">
+      <div class="my-4">
+        <div>Here are your deactivated characters <%= current_user.first_name.capitalize %>:</div>
+      </div>
+
+      <div class="row">
+        <% current_user.characters.each do |character| %>
+          <% unless character.status %>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+              <div class="flat-card">
+                <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <div class="flat-card-content">
+                  <div class="flat-card-title">
+                    <h4><%= character.name %></h4>
+                  </div>
+                  <p><%= character.description %></p>
+                  <div class="flex">
+                    <div class="flex">
+                      Price: <%= character.price_per_day %> &euro;
+                    </div>
+                  </div>
+                </div>
+                <div class="flat-card-actions">
+                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2" %>
+                  <input
+                    type="button"
+                    class="btn btn-outline-warning mr-2"
+                    data-toggle="modal"
+                    data-target="#char-<%= character.id %>"
+                    value="Edit"
+                  >
+                  <input
+                    type="button"
+                    class="btn btn-outline-danger"
+                    data-toggle="modal"
+                    data-target="#char-status-activate-<%= character.id %>"
+                    value="Activate"
+                  >
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%# status modal activate %>
+          <div class="modal fade" id="char-status-activate-<%= character.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to activate <%= character.name %>?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= simple_form_for character do |f| %>
+                    <%= f.label "Check the box to offer your character for rent" %>
+                    <%= f.input :status %>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="float-right"><%= f.submit 'Confirm', class: 'btn btn-warning' %></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%# status modal %>
+
+          <%# edit modal %>
+          <div class="modal fade" id="char-<%= character.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit your character</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= simple_form_for character do |f| %>
+                    <%= f.input :name %>
+                    <%= f.input :description %>
+                    <%= f.input :price_per_day %>
+                    <%= f.input :image_url %>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="float-right"><%= f.submit 'Edit', class: 'btn btn-warning' %></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%# edit modal %>
+        <% end %>
+      </div>
+
+    </div>
+
+  </div>
 </div>
