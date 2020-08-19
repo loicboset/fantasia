@@ -157,7 +157,26 @@
 
     <%# favorites %>
     <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
+      <div class="my-4">
+        <div>Here are your favorites <%= current_user.first_name.capitalize %>:</div>
+      </div>
+      <div class="row">
+        <% current_user.favorites.each do |favorite| %>
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="flat-card">
+              <%= link_to character_path(favorite.character) do %>
+                <div class="flat-card-image" style="background-image: url('<%= favorite.character.image_url %>')"></div>
+              <% end %>
+              <div class="flat-card-content">
+                <div class="flat-card-title">
+                  <h4><%= favorite.character.name %></h4>
+                </div>
+                <p><%= favorite.character.description %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 
