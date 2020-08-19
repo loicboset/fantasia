@@ -6,7 +6,7 @@
     <div class="col-12 col-lg-7">
       <div class="flat-show-card">
         <h1><%= "#{@character.name} " %>I choose you!</h1>
-        <% if current_user %>
+        <% if user_signed_in? %>
           <% if current_user.favorites.where(character_id: @character.id).empty? %>
             <%= link_to favorite_character_path(@character, type: "favorite"), method: :put do %>
               <i class="far fa-star"></i>
