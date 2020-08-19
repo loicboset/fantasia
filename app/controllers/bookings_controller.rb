@@ -3,7 +3,8 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
     authorize @booking
-    @booking.character = Character.find(params[:booking][:character_id])
+    p params
+    @booking.character = Character.find(params[:character_id])
     @booking.user = current_user
 
     if @booking.start_date <= @booking.end_date && @booking.start_date >= Date.today
