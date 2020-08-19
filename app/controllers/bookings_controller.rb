@@ -6,7 +6,7 @@ class BookingsController < ApplicationController
     @booking.character = Character.find(params[:booking][:character_id])
     @booking.user = current_user
 
-    if @booking.start_date < @booking.end_date && @booking.start_date >= Date.today
+    if @booking.start_date <= @booking.end_date && @booking.start_date >= Date.today
       @booking.save!
       redirect_to profile_path
     else
