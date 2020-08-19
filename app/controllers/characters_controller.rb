@@ -1,6 +1,6 @@
 class CharactersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_character, except: [:index]
+  before_action :set_character, except: [:index, :create]
 
   def index
     @characters = policy_scope(Character).order(created_at: :desc)
