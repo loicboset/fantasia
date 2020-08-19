@@ -15,7 +15,15 @@
     </div>
     <div class="col-12 col-lg-5">
       <div class="flat-show-card">
-        <% if @character.status && current_user.id != @character.user_id %>
+        <% if current_user.nil? %>
+          <h3>Rent this character!</h3>
+          <%= simple_form_for @booking do |f| %>
+            <%= f.input :start_date %>
+            <%= f.input :end_date %>
+            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
+          <% end %>
+        <% elsif @character.status && current_user.id != @character.user_id %>
           <h3>Rent this character!</h3>
           <%= simple_form_for @booking do |f| %>
             <%= f.input :start_date %>
