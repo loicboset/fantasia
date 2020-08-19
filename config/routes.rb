@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root to: 'characters#index'
 
   resources :characters, except: [:destroy] do
+    put :favorite, on: :member
   end
 
   post 'bookings', to: 'bookings#create'

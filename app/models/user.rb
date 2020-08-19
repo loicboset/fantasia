@@ -7,4 +7,5 @@ class User < ApplicationRecord
 
   has_many :characters
   has_many :bookings
+  has_many :favorites
 end
