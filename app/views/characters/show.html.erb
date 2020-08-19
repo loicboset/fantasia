@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-12 col-lg-7">
       <div class="flat-show-card">
-        <h1><%= "#{@character.name} " %>I choose you!</h1>
+        <h1><%= "#{@character.name}" %></h1>
         <% if user_signed_in? %>
           <% if current_user.favorites.where(character_id: @character.id).empty? %>
             <%= link_to favorite_character_path(@character, type: "favorite"), method: :put do %>
@@ -19,7 +19,7 @@
         <% end %>
       </div>
       <div class="flat-show-card">
-        <h3>A bit more about this character...</h3>
+        <h3>What we can do together</h3>
         <p><%= @character.description %></p>
         <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
       </div>
@@ -27,7 +27,7 @@
     <div class="col-12 col-lg-5">
       <div class="flat-show-card">
         <% if current_user.nil? %>
-          <h3>Rent this character!</h3>
+          <h3>Pick your time to spend with me:</h3>
           <%= simple_form_for @booking do |f| %>
             <%= f.input :start_date %>
             <%= f.input :end_date %>
@@ -35,7 +35,7 @@
             <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
           <% end %>
         <% elsif @character.status && current_user.id != @character.user_id %>
-          <h3>Rent this character!</h3>
+          <h3>Hire me now!</h3>
           <%= simple_form_for @booking do |f| %>
             <%= f.input :start_date %>
             <%= f.input :end_date %>
