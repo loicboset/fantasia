@@ -26,7 +26,7 @@ class CharactersController < ApplicationController
     if @character.save
       redirect_to profile_path
     else
-      render :profile
+      redirect_to profile_path
     end
   end
 
