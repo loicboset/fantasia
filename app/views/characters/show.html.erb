@@ -33,7 +33,7 @@
               <%= f.input :start_date, as: :string, type: :text %>
               <%= f.input :end_date, as: :string, type: :text %>
               <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
-              <%= f.submit "Log in to hire me now", class: "btn btn-primary" %>
+              <%= f.submit "Log in to hire me now", class: "btn btn-primary btn-lg btn-block btn-success" %>
             <% end %>
           <% elsif @character.status && current_user.id != @character.user_id %>
             <h3>Pick your time to spend with me:</h3>
@@ -41,7 +41,7 @@
               <%= f.input :start_date, as: :string, type: :text %>
               <%= f.input :end_date, as: :string, type: :text %>
               <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
-              <%= f.submit "Hire me now", class: "btn btn-primary" %>
+              <%= f.submit "Hire me now", class: "btn btn-primary btn-lg btn-block btn-success" %>
             <% end %>
           <% else %>
             <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>

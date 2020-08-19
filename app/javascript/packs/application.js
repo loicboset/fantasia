@@ -13,7 +13,7 @@ import { scrollNavbar } from '../scroll_navbar';
 import { searchBar} from '../search_bar'
 
 import flatpickr from "flatpickr";
-// import { initFlatPickr } from '../packs/init_flatpickr.js';
+import { calendar } from '../plugins/init_flatpickr.js';
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -51,33 +51,6 @@ document.addEventListener('turbolinks:load', () => {
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
-  const startDateInput = document.getElementById('booking_start_date');
-const endDateInput = document.getElementById('booking_end_date');
-
-
-
-// Check that the query selector id matches the one you put around your form.
-if (startDateInput) {
-const unavailableDates = JSON.parse(document.querySelector('#character-booking-dates').dataset.unavailable)
-endDateInput.disabled = true
-
-flatpickr(startDateInput, {
-  minDate: "today",
-  disable: unavailableDates,
-  dateFormat: "Y-m-d",
-});
-
-startDateInput.addEventListener("change", (e) => {
-  if (startDateInput != "") {
-    endDateInput.disabled = false
-  }
-  flatpickr(endDateInput, {
-    minDate: e.target.value,
-    disable: unavailableDates,
-    dateFormat: "Y-m-d"
-    });
-  })
-};
-
+  calendar();
 
 });
