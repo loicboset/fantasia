@@ -7,4 +7,11 @@ class Character < ApplicationRecord
   validates :name, :description, :price_per_day, :image_url, presence: true
   validates :name, uniqueness: true
   validates :price_per_day, numericality: { only_integer: true }
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name,
+    against: [ :name ],
+    using: {
+      tsearch: { prefix: true }
+    }
 end
