@@ -14,10 +14,19 @@ class Character < ApplicationRecord
   validates :name, :description, :price_per_day, presence: true
   validates :name, uniqueness: true
   validates :price_per_day, numericality: { only_integer: true }
-
   validates :photo, attached: true, unless: :img_url?
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name,
+    against: [ :name ],
+    using: {
+      tsearch: {
+        prefix: true
+      }
+    }
 
   def img_url?
     self.image_url.present?
   end
+
 end

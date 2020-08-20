@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
+gem 'coffee-rails'
 
 # Devise
 gem 'devise'
@@ -41,9 +42,13 @@ gem 'pundit'
 # Faker
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 
+# PG Search
+gem 'pg_search', '~> 2.3.0'
+
 gem 'cloudinary', '~> 1.12.0'
 
 gem 'active_storage_validations'
+
 
 group :development, :test do
   gem 'pry-byebug'
