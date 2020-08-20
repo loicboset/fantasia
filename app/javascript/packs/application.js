@@ -29,9 +29,8 @@ require("channels")
 import "bootstrap";
 
 // Internal imports, e.g:
-import { scrollNavbar } from '../scroll_navbar';
 import { searchBar } from '../components/search_bar'
-import { scrollNavbar } from '../scroll_navbar';
+import { scrollNavbar } from '../components/scroll_navbar';
 import { profileTabs } from '../profileTabs';
 
 import flatpickr from "flatpickr";
