@@ -61,7 +61,7 @@ class CharactersController < ApplicationController
   private
 
   def character_params
-    params.require(:character).permit(:name, :description, :image_url, :price_per_day, :status)
+    params.require(:character).permit(:name, :description, :image_url, :price_per_day, :status, :photo)
   end
 
   def favorite_params
