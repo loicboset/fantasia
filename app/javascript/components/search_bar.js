@@ -2,7 +2,6 @@
 const searchBar = () => {
   const indexView = document.querySelector("#index-view");
   if (indexView) {
-    console.log("Hello from search_bar.js");
     const selectCharacters = document.querySelector("#select_characters");
     selectCharacters.classList.add("hidden")
     const searchDiv = document.querySelector("#search-div")
