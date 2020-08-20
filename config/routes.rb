@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   post 'bookings', to: 'bookings#create'
   patch  "bookings/:id", to: "bookings#validate", as: :validate_booking
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  resources :reviews, only: [:create, :index]
 end
