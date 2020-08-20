@@ -1,22 +1,24 @@
-<%= render 'shared/navbar_homepage' %>
-<%= render 'components/banner'%>
+<div id="index-view">
+  <%= render 'shared/navbar_homepage' %>
+  <%= render 'components/banner'%>
 
-<div class="container mt-3">
-  <div class="row">
-    <% @characters.each do |character| %>
-      <% if character.status %>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="character-card">
-            <%= link_to character_path(character) do %>
-              <div class="character-card-image" style="background-image: url('<%= character.image_url %>')"></div>
-            <% end %>
-            <div class="character-card-content">
-              <h4><%= character.name %></h4>
-              <p><%= character.description %></p>
+  <div class="container mt-3">
+    <div class="row">
+      <% @characters.each do |character| %>
+        <% if character.status %>
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="character-card">
+              <%= link_to character_path(character) do %>
+                <div class="character-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+              <% end %>
+              <div class="character-card-content">
+                <h4><%= character.name %></h4>
+                <p><%= character.description %></p>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </div>

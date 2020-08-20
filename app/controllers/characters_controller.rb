@@ -3,6 +3,7 @@ class CharactersController < ApplicationController
   before_action :set_character, except: [ :index, :create ]
 
   def index
+    p params
     if params[:search].present?
       @characters = policy_scope(Character).search_by_name(params[:search][:query])
     else
