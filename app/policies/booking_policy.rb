@@ -12,4 +12,8 @@ class BookingPolicy < ApplicationPolicy
   def show?
     return true
   end
+
+  def validate?
+    return true
+  end
 end

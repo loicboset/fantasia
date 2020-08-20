@@ -10,7 +10,7 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 import { scrollNavbar } from '../scroll_navbar';
-import { searchBar} from '../search_bar'
+import { profileTabs } from '../profileTabs';
 
 import flatpickr from "flatpickr";
 import { calendar } from '../plugins/init_flatpickr.js';
@@ -37,7 +37,7 @@ document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
   scrollNavbar();
-  searchBar();
+  profileTabs();
 });
 
 /* document.addEventListener('turbolinks:load', () => {
