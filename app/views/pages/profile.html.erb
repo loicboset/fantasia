@@ -28,7 +28,7 @@
   </div>
 
   <%# tabs %>
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Bookings</a>
     </li>
@@ -71,18 +71,18 @@
                     </div>
                   </div>
                 </div>
-                <div class="flat-card-actions">
-                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2" %>
+                <div class="flat-card-actions justify-content-between d-flex">
+                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2 btn-sm" %>
                   <input
                     type="button"
-                    class="btn btn-outline-warning mr-2"
+                    class="btn btn-outline-warning mr-2 btn-sm"
                     data-toggle="modal"
                     data-target="#char-<%= character.id %>"
                     value="Edit"
                   >
                   <input
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-outline-danger btn-sm"
                     data-toggle="modal"
                     data-target="#char-status-<%= character.id %>"
                     value="Deactivate"
@@ -104,6 +104,7 @@
                 </div>
                 <div class="modal-body">
                   <%= simple_form_for character do |f| %>
+                    <%= f.label "Uncheck the box to no longer rent this character" %>
                     <%= f.input :status %>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <div class="float-right"><%= f.submit 'Confirm', class: 'btn btn-warning' %></div>
@@ -143,7 +144,7 @@
 
     </div>
 
-    <%# bookings %>
+    <%# ****************************** BOOKINGS ****************************** %>
     <div class="tab-pane show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       <div class="my-4">
         <div>Here are your bookings <%= current_user.first_name.capitalize %>:</div>
@@ -169,10 +170,6 @@
                     <strong>Total days: </strong>&nbsp;
                     <%= (booking.end_date - booking.start_date).to_i + 1 %>
                   </div>
-                </div>
-              </div>
-              <div class="flat-card-actions">
-                <div class="flex row justify-content-between">
                   <div class="flex small ml-2">
                     <strong>From:</strong>&nbsp;
                     <%= booking.start_date %>
@@ -182,15 +179,50 @@
                     <%= booking.end_date %>
                   </div>
                 </div>
-                <%# Actions: edit - delete %>
+              </div>
+              <div class="flat-card-actions">
+                <% if booking.status %>
+                  <input
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    data-toggle="modal"
+                    data-target="#cancel-booking-<%= booking.id %>"
+                    value="Cancel booking"
+                  >
+                <% else %>
+                  <span><i class="fas fa-info-circle text-danger"></i> This booking has been cancelled</span>
+                <% end %>
               </div>
             </div>
           </div>
+
+          <%# CANCEL BOOKING MODAL %>
+          <div class="modal fade" id="cancel-booking-<%= booking.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to cancel your booking?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= link_to validate_booking_path(id: booking, value: false), method: :patch do %>
+                    <button class="btn btn-outline-danger btn-sm">Confirm</button>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%# END CANCEL BOOKING MODAL %>
+
         <% end %>
+
       </div>
     </div>
+    <%# ****************************** END OF BOOKINGS ****************************** %>
 
-    <%# favorites %>
+    <%# ****************************** FAVORITES ****************************** %>
     <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
       <div class="my-4">
         <div>Here are your favorites characters <%= current_user.first_name.capitalize %>:</div>
@@ -213,6 +245,7 @@
         <% end %>
       </div>
     </div>
+    <%# ****************************** FAVORITES ****************************** %>
 
     <%# deactivated %>
     <div class="tab-pane" id="deactivated" role="tabpanel" aria-labelledby="deactivated-tab">
@@ -237,18 +270,18 @@
                     </div>
                   </div>
                 </div>
-                <div class="flat-card-actions">
-                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2" %>
+                <div class="flat-card-actions justify-content-between d-flex">
+                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2 btn-sm" %>
                   <input
                     type="button"
-                    class="btn btn-outline-warning mr-2"
+                    class="btn btn-outline-warning mr-2 btn-sm"
                     data-toggle="modal"
                     data-target="#char-<%= character.id %>"
                     value="Edit"
                   >
                   <input
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-outline-danger btn-sm"
                     data-toggle="modal"
                     data-target="#char-status-activate-<%= character.id %>"
                     value="Activate"
