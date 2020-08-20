@@ -16,7 +16,8 @@
             <%= f.input :name %>
             <%= f.input :description %>
             <%= f.input :price_per_day %>
-            <%= f.input :image_url %>
+            <%= f.input :image_url, label: 'Paste image url here (or upload image below)' %>
+            <%= f.input :photo, as: :file %>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <div class="float-right">
               <%= f.submit class: 'btn btn-primary' %>
@@ -28,7 +29,7 @@
   </div>
 
   <%# tabs %>
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Bookings</a>
     </li>
@@ -59,7 +60,11 @@
           <% if character.status %>
             <div class="col-sm-12 col-md-6 col-lg-4">
               <div class="flat-card">
-                <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <% if character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <% elsif character.photo.attached? %>
+                  <div><%= cl_image_tag character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
                 <div class="flat-card-content">
                   <div class="flat-card-title">
                     <h4><%= character.name %></h4>
@@ -71,18 +76,18 @@
                     </div>
                   </div>
                 </div>
-                <div class="flat-card-actions">
-                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2" %>
+                <div class="flat-card-actions justify-content-between d-flex">
+                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2 btn-sm" %>
                   <input
                     type="button"
-                    class="btn btn-outline-warning mr-2"
+                    class="btn btn-outline-warning mr-2 btn-sm"
                     data-toggle="modal"
                     data-target="#char-<%= character.id %>"
                     value="Edit"
                   >
                   <input
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-outline-danger btn-sm"
                     data-toggle="modal"
                     data-target="#char-status-<%= character.id %>"
                     value="Deactivate"
@@ -104,6 +109,7 @@
                 </div>
                 <div class="modal-body">
                   <%= simple_form_for character do |f| %>
+                    <%= f.label "Uncheck the box to no longer rent this character" %>
                     <%= f.input :status %>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <div class="float-right"><%= f.submit 'Confirm', class: 'btn btn-warning' %></div>
@@ -143,7 +149,7 @@
 
     </div>
 
-    <%# bookings %>
+    <%# ****************************** BOOKINGS ****************************** %>
     <div class="tab-pane show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       <div class="my-4">
         <div>Here are your bookings <%= current_user.first_name.capitalize %>:</div>
@@ -152,7 +158,11 @@
         <% current_user.bookings.each do |booking| %>
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="flat-card">
-              <div class="flat-card-image" style="background-image: url('<%= booking.character.image_url %>')"></div>
+              <% if booking.character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= booking.character.image_url %>')"></div>
+                <% elsif booking.character.photo.attached? %>
+                  <div><%= cl_image_tag booking.character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
               <div class="flat-card-content">
                 <div class="flat-card-title">
                   <h4><%= booking.character.name %></h4>
@@ -169,10 +179,6 @@
                     <strong>Total days: </strong>&nbsp;
                     <%= (booking.end_date - booking.start_date).to_i + 1 %>
                   </div>
-                </div>
-              </div>
-              <div class="flat-card-actions">
-                <div class="flex row justify-content-between">
                   <div class="flex small ml-2">
                     <strong>From:</strong>&nbsp;
                     <%= booking.start_date %>
@@ -182,15 +188,83 @@
                     <%= booking.end_date %>
                   </div>
                 </div>
-                <%# Actions: edit - delete %>
+              </div>
+              <div class="flat-card-actions">
+                <% if booking.status %>
+                  <input
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    data-toggle="modal"
+                    data-target="#cancel-booking-<%= booking.id %>"
+                    value="Cancel booking"
+                  >
+                <% else %>
+                  <span><i class="fas fa-info-circle text-danger"></i> This booking has been cancelled</span>
+                <% end %>
+                <input
+                  type="button"
+                  class="btn btn-outline-warning btn-sm"
+                  data-toggle="modal"
+                  data-target="#review-booking-<%= booking.id %>"
+                  value="Add review"
+                >
               </div>
             </div>
           </div>
+
+          <%# CANCEL BOOKING MODAL %>
+          <div class="modal fade" id="cancel-booking-<%= booking.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to cancel your booking?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= link_to validate_booking_path(id: booking, value: false), method: :patch do %>
+                    <button class="btn btn-outline-danger btn-sm">Confirm</button>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%# END CANCEL BOOKING MODAL %>
+
+          <%# REVIEW BOOKING MODAL %>
+          <div class="modal fade" id="review-booking-<%= booking.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Write your review</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <%= simple_form_for @review do |f| %>
+                    <%= f.input :booking_id, :as => :hidden, :input_html => { :value => booking.id } %>
+                    <%= f.label "Check the box to offer your character for rent" %>
+                    <%= f.input :user_review %>
+                    <%= f.input :rating %>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="float-right"><%= f.submit 'Confirm', class: 'btn btn-warning' %></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%# END REVIEW BOOKING MODAL %>
+
+
         <% end %>
+
       </div>
     </div>
+    <%# ****************************** END OF BOOKINGS ****************************** %>
 
-    <%# favorites %>
+    <%# ****************************** FAVORITES ****************************** %>
     <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
       <div class="my-4">
         <div>Here are your favorites characters <%= current_user.first_name.capitalize %>:</div>
@@ -200,7 +274,11 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="flat-card">
               <%= link_to character_path(favorite.character) do %>
-                <div class="flat-card-image" style="background-image: url('<%= favorite.character.image_url %>')"></div>
+                <% if favorite.character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= favorite.character.image_url %>')"></div>
+                <% elsif favorite.character.photo.attached? %>
+                  <div><%= cl_image_tag favorite.character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
               <% end %>
               <div class="flat-card-content">
                 <div class="flat-card-title">
@@ -213,6 +291,7 @@
         <% end %>
       </div>
     </div>
+    <%# ****************************** FAVORITES ****************************** %>
 
     <%# deactivated %>
     <div class="tab-pane" id="deactivated" role="tabpanel" aria-labelledby="deactivated-tab">
@@ -225,7 +304,11 @@
           <% unless character.status %>
             <div class="col-sm-12 col-md-6 col-lg-4">
               <div class="flat-card">
-                <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <% if character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <% elsif character.photo.attached? %>
+                  <div><%= cl_image_tag character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
                 <div class="flat-card-content">
                   <div class="flat-card-title">
                     <h4><%= character.name %></h4>
@@ -237,18 +320,18 @@
                     </div>
                   </div>
                 </div>
-                <div class="flat-card-actions">
-                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2" %>
+                <div class="flat-card-actions justify-content-between d-flex">
+                  <%= link_to 'More info', character_path(character), class: "btn btn-outline-success mr-2 btn-sm" %>
                   <input
                     type="button"
-                    class="btn btn-outline-warning mr-2"
+                    class="btn btn-outline-warning mr-2 btn-sm"
                     data-toggle="modal"
                     data-target="#char-<%= character.id %>"
                     value="Edit"
                   >
                   <input
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-outline-danger btn-sm"
                     data-toggle="modal"
                     data-target="#char-status-activate-<%= character.id %>"
                     value="Activate"

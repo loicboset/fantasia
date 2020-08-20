@@ -45,6 +45,11 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 # PG Search
 gem 'pg_search', '~> 2.3.0'
 
+gem 'cloudinary', '~> 1.12.0'
+
+gem 'active_storage_validations'
+
+
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'

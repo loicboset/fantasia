@@ -3,6 +3,7 @@ class PagesController < ApplicationController
 
   def profile
     @character = Character.new
+    @review = Review.new
   end
 
 end
