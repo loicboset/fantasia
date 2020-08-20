@@ -157,7 +157,11 @@
         <% current_user.bookings.each do |booking| %>
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="flat-card">
-              <div class="flat-card-image" style="background-image: url('<%= booking.character.image_url %>')"></div>
+              <% if booking.character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= booking.character.image_url %>')"></div>
+                <% elsif booking.character.photo.attached? %>
+                  <div><%= cl_image_tag booking.character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
               <div class="flat-card-content">
                 <div class="flat-card-title">
                   <h4><%= booking.character.name %></h4>
@@ -205,7 +209,11 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="flat-card">
               <%= link_to character_path(favorite.character) do %>
-                <div class="flat-card-image" style="background-image: url('<%= favorite.character.image_url %>')"></div>
+                <% if favorite.character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= favorite.character.image_url %>')"></div>
+                <% elsif favorite.character.photo.attached? %>
+                  <div><%= cl_image_tag favorite.character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
               <% end %>
               <div class="flat-card-content">
                 <div class="flat-card-title">
@@ -230,7 +238,11 @@
           <% unless character.status %>
             <div class="col-sm-12 col-md-6 col-lg-4">
               <div class="flat-card">
-                <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <% if character.image_url.present? %>
+                  <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+                <% elsif character.photo.attached? %>
+                  <div><%= cl_image_tag character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+                <% end %>
                 <div class="flat-card-content">
                   <div class="flat-card-title">
                     <h4><%= character.name %></h4>
