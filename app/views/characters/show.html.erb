@@ -26,25 +26,27 @@
     </div>
     <div class="col-12 col-lg-5">
       <div class="flat-show-card">
-        <% if current_user.nil? %>
-          <h3>Pick your time to spend with me:</h3>
-          <%= simple_form_for @booking do |f| %>
-            <%= f.input :start_date %>
-            <%= f.input :end_date %>
-            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
-            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
+        <div id='character-booking-dates' data-unavailable="<%= @character.unavailable_dates.to_json %>">
+          <% if current_user.nil? %>
+            <h3>Pick your time to spend with me:</h3>
+            <%= simple_form_for(@booking) do |f| %>
+              <%= f.input :start_date, as: :string, type: :text %>
+              <%= f.input :end_date, as: :string, type: :text %>
+              <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+              <%= f.submit "Log in to hire me now", class: "btn btn-primary btn-lg btn-block btn-success" %>
+            <% end %>
+          <% elsif @character.status && current_user.id != @character.user_id %>
+            <h3>Pick your time to spend with me:</h3>
+            <%= simple_form_for(@booking) do |f| %>
+              <%= f.input :start_date, as: :string, type: :text %>
+              <%= f.input :end_date, as: :string, type: :text %>
+              <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+              <%= f.submit "Hire me now", class: "btn btn-primary btn-lg btn-block btn-success" %>
+            <% end %>
+          <% else %>
+            <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>
           <% end %>
-        <% elsif @character.status && current_user.id != @character.user_id %>
-          <h3>Hire me now!</h3>
-          <%= simple_form_for @booking do |f| %>
-            <%= f.input :start_date %>
-            <%= f.input :end_date %>
-            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
-            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
-          <% end %>
-        <% else %>
-          <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>
-        <% end %>
+        </div>
       </div>
       <div class="flat-show-card">
         <h3>Details</h3>
