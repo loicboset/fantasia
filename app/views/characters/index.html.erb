@@ -1,16 +1,13 @@
 <div id="index-view">
   <%= render 'shared/navbar_homepage' %>
   <%= render 'components/banner'%>
-<div id="map"
-     style="width: 100%; height: 600px;"
-     data-markers="<%= @markers.to_json %>"
-     data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+  
 
 <div class="container mt-3">
   <div class="row">
     <% @characters.each do |character| %>
       <% if character.status %>
-        <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="col-sm-12 col-md-6 col-lg-6">
           <div class="character-card">
             <%= link_to character_path(character) do %>
                <% if character.image_url.present? %>
@@ -18,16 +15,16 @@
                <% elsif character.photo.attached? %>
                 <div><%= cl_image_tag character.photo.key, crop: :fit, class:"flat-card-image" %></div>
                <% end %>
-              <% end %>
-              <div class="character-card-content">
-                <h4><%= character.name %></h4>
-                <p><%= character.description %></p>
-              </div>
+            <% end %>
+            <div class="character-card-content">
+              <h4><%= character.name %></h4>
+              <p><%= character.description %></p>
             </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
-    </div>
-
+    <% end %>
   </div>
+</div>
+</div>
 </div>

@@ -9,16 +9,6 @@ class CharactersController < ApplicationController
     else
       @characters = policy_scope(Character).order(created_at: :desc)
     end
-
-    @locations = Character.geocoded
-    @markers = @locations.map do |character|
-      {
-        lat: character.latitude,
-        lng: character.longitude,
-        infoWindow: render_to_string(partial: "info_window", locals: { character: character }),
-        image_url: helpers.asset_url('marker.png')
-      }
-    end
   end
 
   def show
@@ -29,11 +19,14 @@ class CharactersController < ApplicationController
     authorize @character
     authorize @booking
 
-    @marker = {
+    @markers =
+      [{
         lat: @character.latitude,
         lng: @character.longitude,
-        image_url: helpers.asset_url('marker.png')
-      }
+        image_url: helpers.asset_url('mickey.png')
+      }]
+
+
   end
 
 
