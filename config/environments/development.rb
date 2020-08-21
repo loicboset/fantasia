@@ -11,7 +11,7 @@ Rails.application.configure do
     port:            587,
     authentication: :plain,
     user_name:      'apikey',
-    password:       ENV['APP_PASSWORD']
+    password:       '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'
   }
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
