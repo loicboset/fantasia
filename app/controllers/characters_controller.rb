@@ -18,7 +18,17 @@ class CharactersController < ApplicationController
     authorize @favorite
     authorize @character
     authorize @booking
+
+    @markers =
+      [{
+        lat: @character.latitude,
+        lng: @character.longitude,
+        image_url: helpers.asset_url('mickey.png')
+      }]
+
+
   end
+
 
   def new
     @character = Character.new
@@ -66,7 +76,7 @@ class CharactersController < ApplicationController
   private
 
   def character_params
-    params.require(:character).permit(:name, :description, :image_url, :price_per_day, :status, :photo)
+    params.require(:character).permit(:name, :description, :image_url, :address, :price_per_day, :status, :photo)
   end
 
   def favorite_params
@@ -76,4 +86,5 @@ class CharactersController < ApplicationController
   def set_character
     @character = Character.find(params[:id])
   end
+
 end

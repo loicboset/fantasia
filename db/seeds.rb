@@ -13,6 +13,7 @@ Character.destroy_all if Rails.env.development?
   Character.create(
     name: Faker::Games::Pokemon.name,
     description: "Lorem ipsum Lorem ipsum Lorem ipsum",
+    address: Faker::Address.full_address,
     image_url: "https://images.unsplash.com/photo-1596525728348-7b13f6e6d7a0?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
     price_per_day: rand(10..400),
     user_id: 1
