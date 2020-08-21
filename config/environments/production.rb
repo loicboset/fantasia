@@ -9,8 +9,8 @@ Rails.application.configure do
     address:        "smtp.sendgrid.net",
     port:            587,
     authentication: :plain,
-    user_name:      'apikey',
-    password:       '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'
+    user_name:      ENV["SMTP_USERNAME"],
+    password:       ENV["SMTP_PASSWORD"]
   }
   # Code is not reloaded between requests.
   config.cache_classes = true
