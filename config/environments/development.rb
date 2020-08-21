@@ -11,7 +11,7 @@ Rails.application.configure do
   #   port:            587,
   #   authentication: :plain,
   #   user_name:      'apikey',
-  #   password:       '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'
+  #   password:       ENV['APP_PASSWOR']
   # }
 
   # SMTP settings for gmail
@@ -19,8 +19,8 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     port: 587,
     address: 'smtp.gmail.com',
-    user_name: 'iaconimgheorghe@gmail.com',
-    password: 'coyvaidvrytytpub',
+    user_name: ENV['GMAIL_ADDRESS'],
+    password: ENV['GMAIL_PASSWORD'],
     authentication: :plain,
     enable_starttls_auto: true
   }
