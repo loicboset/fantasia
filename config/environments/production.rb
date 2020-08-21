@@ -1,6 +1,17 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  # SEttings for the devise mailer
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = {host: 'my-fantasia-mvp.herokuapp.com'}
+  config.action_mailer.smtp_settings = {
+    domain: 'fantasia-heroku.com',
+    address:        "smtp.sendgrid.net",
+    port:            587,
+    authentication: :plain,
+    user_name:      'apikey',
+    password:       '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'
+  }
   # Code is not reloaded between requests.
   config.cache_classes = true
 
