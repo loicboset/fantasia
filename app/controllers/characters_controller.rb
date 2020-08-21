@@ -1,9 +1,14 @@
 class CharactersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_character, except: [:index, :create]
+  skip_before_action :authenticate_user!, only: [ :index, :show ]
+  before_action :set_character, except: [ :index, :create ]
 
   def index
-    @characters = policy_scope(Character).order(created_at: :desc)
+    p params
+    if params[:search].present?
+      @characters = policy_scope(Character).search_by_name(params[:search][:query])
+    else
+      @characters = policy_scope(Character).order(created_at: :desc)
+    end
   end
 
   def show
@@ -61,7 +66,7 @@ class CharactersController < ApplicationController
   private
 
   def character_params
-    params.require(:character).permit(:name, :description, :image_url, :price_per_day, :status)
+    params.require(:character).permit(:name, :description, :image_url, :price_per_day, :status, :photo)
   end
 
   def favorite_params

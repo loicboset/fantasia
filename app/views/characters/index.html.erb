@@ -1,5 +1,7 @@
-<%= render 'shared/navbar_homepage' %>
-<%= render 'components/banner'%>
+<div id="index-view">
+  <%= render 'shared/navbar_homepage' %>
+  <%= render 'components/banner'%>
+
 
 <div class="container mt-3">
   <div class="row">
@@ -8,15 +10,20 @@
         <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="character-card">
             <%= link_to character_path(character) do %>
-              <div class="character-card-image" style="background-image: url('<%= character.image_url %>')"></div>
-            <% end %>
-            <div class="character-card-content">
-              <h4><%= character.name %></h4>
-              <p><%= character.description %></p>
+               <% if character.image_url.present? %>
+                 <div class="flat-card-image" style="background-image: url('<%= character.image_url %>')"></div>
+               <% elsif character.photo.attached? %>
+                <div><%= cl_image_tag character.photo.key, crop: :fit, class:"flat-card-image" %></div>
+               <% end %>
+              <% end %>
+              <div class="character-card-content">
+                <h4><%= character.name %></h4>
+                <p><%= character.description %></p>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </div>

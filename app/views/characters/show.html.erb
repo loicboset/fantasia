@@ -21,30 +21,36 @@
       <div class="flat-show-card">
         <h3>What we can do together</h3>
         <p><%= @character.description %></p>
-        <div class="map" style="background-image: url(<%= "#{@character.image_url}" %>)"></div>
+        <% if @character.image_url.present? %>
+          <div class="map" style="background-image: url('<%= @character.image_url %>')"></div>
+        <% elsif @character.photo.attached? %>
+          <div><%= cl_image_tag @character.photo.key, crop: :fit, class:"map" %></div>
+        <% end %>
       </div>
     </div>
     <div class="col-12 col-lg-5">
       <div class="flat-show-card">
-        <% if current_user.nil? %>
-          <h3>Pick your time to spend with me:</h3>
-          <%= simple_form_for @booking do |f| %>
-            <%= f.input :start_date %>
-            <%= f.input :end_date %>
-            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
-            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
+        <div id='character-booking-dates' data-unavailable="<%= @character.unavailable_dates.to_json %>">
+          <% if current_user.nil? %>
+            <h3>Pick your time to spend with me:</h3>
+            <%= simple_form_for(@booking) do |f| %>
+              <%= f.input :start_date, as: :string, type: :text %>
+              <%= f.input :end_date, as: :string, type: :text %>
+              <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+              <%= f.submit "Log in to hire me now", class: "btn btn-primary btn-lg btn-block btn-success" %>
+            <% end %>
+          <% elsif @character.status && current_user.id != @character.user_id %>
+            <h3>Pick your time to spend with me:</h3>
+            <%= simple_form_for(@booking) do |f| %>
+              <%= f.input :start_date, as: :string, type: :text %>
+              <%= f.input :end_date, as: :string, type: :text %>
+              <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
+              <%= f.submit "Hire me now", class: "btn btn-primary btn-lg btn-block btn-success" %>
+            <% end %>
+          <% else %>
+            <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>
           <% end %>
-        <% elsif @character.status && current_user.id != @character.user_id %>
-          <h3>Hire me now!</h3>
-          <%= simple_form_for @booking do |f| %>
-            <%= f.input :start_date %>
-            <%= f.input :end_date %>
-            <%= f.input :character_id, :as => :hidden, :input_html => { :value => @character.id } %>
-            <%= f.submit class: "btn btn-primary btn-lg btn-block btn-success" %>
-          <% end %>
-        <% else %>
-          <p>Hey <%= current_user.first_name.capitalize %>! This is your character</p>
-        <% end %>
+        </div>
       </div>
       <div class="flat-show-card">
         <h3>Details</h3>
@@ -69,7 +75,7 @@
         <h3>Reviews</h3>
         <ul class="list-group">
           <% @character.reviews.each do |review| %>
-            <li class="list-group-item"><%= review.user_comment %></li>
+            <li class="list-group-item"><%= review.user_review %></li>
           <% end %>
         </ul>
       </div>
