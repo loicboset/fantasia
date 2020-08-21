@@ -16,15 +16,6 @@ Rails.application.configure do
 
   # SMTP settings for gmail
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    port: 587,
-    address: 'smtp.gmail.com',
-    domain: ENV['GMAIL_ADDRESS'],
-    user_name: ENV['GMAIL_ADDRESS'],
-    password: ENV['GMAIL_PASSWORD'],
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
 
   config.action_mailer.default_url_options = { :host => 'my-fantasia-mvp.herokuapp.com/' }
   # Code is not reloaded between requests.
