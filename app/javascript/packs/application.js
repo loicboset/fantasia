@@ -35,6 +35,7 @@ import { profileTabs } from '../profileTabs';
 
 import flatpickr from "flatpickr";
 import { calendar } from '../plugins/init_flatpickr.js';
+import { initMapbox } from '../plugins/init_mapbox';
 
 
 document.addEventListener('turbolinks:load', () => {
@@ -44,4 +45,9 @@ document.addEventListener('turbolinks:load', () => {
   profileTabs();
   searchBar();
   calendar();
+
+});
+
+document.addEventListener('turbolinks:load', () => {
+initMapbox();
 });

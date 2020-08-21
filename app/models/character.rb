@@ -4,6 +4,8 @@ class Character < ApplicationRecord
   has_many :favorites
   has_many :reviews, through: :bookings
   has_one_attached :photo
+  geocoded_by :address
+
 
   def unavailable_dates
     bookings.pluck(:start_date, :end_date).map do |range|
@@ -11,10 +13,12 @@ class Character < ApplicationRecord
     end
   end
 
-  validates :name, :description, :price_per_day, presence: true
+  validates :name, :description, :price_per_day, :address, presence: true
   validates :name, uniqueness: true
   validates :price_per_day, numericality: { only_integer: true }
   validates :photo, attached: true, unless: :img_url?
+
+  after_validation :geocode, if: :will_save_change_to_address?
 
   include PgSearch::Model
   pg_search_scope :search_by_name,

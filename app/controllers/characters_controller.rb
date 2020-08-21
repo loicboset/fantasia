@@ -9,6 +9,16 @@ class CharactersController < ApplicationController
     else
       @characters = policy_scope(Character).order(created_at: :desc)
     end
+
+    @locations = Character.geocoded
+    @markers = @locations.map do |character|
+      {
+        lat: character.latitude,
+        lng: character.longitude,
+        infoWindow: render_to_string(partial: "info_window", locals: { character: character }),
+        image_url: helpers.asset_url('marker.png')
+      }
+    end
   end
 
   def show
@@ -18,7 +28,14 @@ class CharactersController < ApplicationController
     authorize @favorite
     authorize @character
     authorize @booking
+
+    @marker = {
+        lat: @character.latitude,
+        lng: @character.longitude,
+        image_url: helpers.asset_url('marker.png')
+      }
   end
+
 
   def new
     @character = Character.new
@@ -66,7 +83,7 @@ class CharactersController < ApplicationController
   private
 
   def character_params
-    params.require(:character).permit(:name, :description, :image_url, :price_per_day, :status, :photo)
+    params.require(:character).permit(:name, :description, :image_url, :address, :price_per_day, :status, :photo)
   end
 
   def favorite_params
@@ -76,4 +93,5 @@ class CharactersController < ApplicationController
   def set_character
     @character = Character.find(params[:id])
   end
+
 end

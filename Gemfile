@@ -32,6 +32,7 @@ gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'coffee-rails'
+gem 'geocoder'
 
 # Devise
 gem 'devise'
